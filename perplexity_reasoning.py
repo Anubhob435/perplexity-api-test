@@ -17,34 +17,34 @@ client = OpenAI(
 )
 
 
-def perplexity_deep_research(query=None):
+def perplexity_reasoning(query=None):
     """
-    Conduct deep research using Perplexity's sonar-deep-research model.
+    Conduct complex reasoning analysis using Perplexity's sonar-reasoning-pro model.
     
     Args:
-        query (str, optional): Research query. If None, uses default quantum computing query.
+        query (str, optional): Reasoning query. If None, uses default fusion energy query.
     
     Returns:
-        str: The research response content
+        str: The reasoning response content
     """
 
     if query is None:
-        query = "Conduct a comprehensive analysis of the quantum computing industry, including technological approaches, key players, market opportunities, regulatory challenges, and commercial viability projections through 2035."
+        query = "Analyze the feasibility of fusion energy becoming a mainstream power source by 2040."
     
     response = client.chat.completions.create(
-        model="sonar-deep-research",
+        model="sonar-reasoning-pro",
         messages=[
             {"role": "user", "content": query}
         ],
-        max_tokens=2048,  # Deep research typically needs more tokens
-        temperature=0.1,  # Lower temperature for factual research
+        max_tokens=2048,  # Reasoning typically needs more tokens for detailed analysis
+        temperature=0.2,  # Low temperature for logical reasoning
         stream=False
     )
     
     content = response.choices[0].message.content
     
     # Print the response
-    print("\n--- Perplexity Deep Research Response ---\n")
+    print("\n--- Perplexity Reasoning Pro Response ---\n")
     print(content)
     
     # Print citations if available
@@ -55,11 +55,11 @@ def perplexity_deep_research(query=None):
             print(f"  {i}. {url}")
     
     # Save response to markdown file
-    md_filename = "deep_research_answer.md"
+    md_filename = "perplexity_reasoning_response.md"
     with open(md_filename, "w", encoding="utf-8") as f:
-        f.write("# Perplexity Deep Research Analysis\n\n")
+        f.write("# Perplexity Reasoning Pro Analysis\n\n")
         f.write(f"**Query:** {query}\n\n")
-        f.write("## Research Results\n\n")
+        f.write("## Analysis\n\n")
         f.write(content + "\n\n")
         if citations:
             f.write("## Citations\n\n")
@@ -67,9 +67,15 @@ def perplexity_deep_research(query=None):
                 f.write(f"{i}. {url}\n")
     
     print(f"\nResponse saved to {md_filename}")
-    
     return content
 
+
 # Example usage:
-result = perplexity_deep_research()
-custom_result = perplexity_deep_research("Analyze the latest developments in AI safety research")
+if __name__ == "__main__":
+    # Default query about fusion energy
+    result = perplexity_reasoning()
+    
+    # Custom reasoning query
+    custom_result = perplexity_reasoning(
+        "Evaluate the strategic implications of artificial general intelligence (AGI) development for global economic systems, considering both opportunities and risks."
+    )
